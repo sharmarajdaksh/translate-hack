@@ -1,7 +1,40 @@
 const puppeteer = require("puppeteer");
 
-const strEn = "Hello, how are you.";
-const INPUT_LANG = "English";
+// const strEn = {
+//   hello: "hello", 
+//   by: "by",
+//   talk: "talk"
+// }
+// const newLang = {
+//   hello: "hello", 
+//   by: "by",
+//   talk: "talk"
+
+// }
+const strEn = {
+  "hello": "", 
+  "bye": "",
+  "talk": "",
+  "okay": "",
+  "now": "", 
+  "what": "",
+  "why": "",
+  "something new to do": "",
+  "something to wear": ""
+};
+
+const newLang = {
+  "hello": null, 
+  "bye": null,
+  "talk": null,
+  "okay": null,
+  "now": null, 
+  "what": null,
+  "why": null,
+  "something new to do": null,
+  "something to wear": null
+}
+const INPUT_LANG = "English"
 const OUTPUT_LANG = "Spanish";
 
 // Enum
@@ -36,6 +69,8 @@ const selectLanguageFromDropdown = async (page, language, inputOrOutput) => {
 
 const inputInputText = async (page, text) => {
   await page.focus(".tlid-source-text-input");
+  const input = await page.$(".tlid-source-text-input");
+  await input.click({ clickCount: 3 })
   await page.keyboard.type(text);
 };
 
@@ -45,21 +80,24 @@ const getOutputText = async (page) => {
   });
 };
 
-const getTranslation = async (page, text) => {
-  await inputInputText(page, text);
-  // Manual Wait
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  return await getOutputText(page);
+
+const getTranslation = async (page, obj) => {
+  for (var key of Object.keys(obj)) {
+    await console.log(key);
+    await inputInputText(page, key);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    newLang[key] = await getOutputText(page);
+}
+  // Manual Wait 
+  return newLang
 };
 
 const main = async () => {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: false});
   const page = await browser.newPage();
   await page.goto("https://translate.google.com/");
-
   await selectLanguageFromDropdown(page, INPUT_LANG, inputOutput.input);
   await selectLanguageFromDropdown(page, OUTPUT_LANG, inputOutput.output);
-
   const translatedText = await getTranslation(page, strEn);
   console.log(translatedText);
 };
