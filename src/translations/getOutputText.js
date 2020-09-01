@@ -1,6 +1,7 @@
 const output = require("fs-extra/lib/output");
 
-const outputTextSelector = ".tlid-translation.translation > span";
+const outputTextSelector = require("../config").elementSelectors
+  .outputTextSelector;
 
 const getOutputText = async (page) => {
   return await page.$eval(outputTextSelector, (element) => {

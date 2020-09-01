@@ -1,4 +1,5 @@
-const inputTextInputFieldSelector = ".tlid-source-text-input";
+const inputTextInputFieldSelector = require("../config").elementSelectors
+  .inputTextInputFieldSelector;
 
 const inputInputText = async (page, text) => {
   await page.$eval(
