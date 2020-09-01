@@ -86,7 +86,7 @@ const main = async () => {
   await page.goto("https://translate.google.com/");
   await selectLanguageFromDropdown(page, INPUT_LANG, inputOutput.input);
   await selectLanguageFromDropdown(page, OUTPUT_LANG, inputOutput.output);
-  const translatedText = await getTranslation(page, keys);
+  await getTranslation(page, keys);
 };
 
 readJSONkeys().then(() => main()).then(() => writeJSONkeys());
