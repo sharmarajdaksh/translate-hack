@@ -6,24 +6,31 @@ const inputOutput = require("./translations").inputOutput;
 const getTranslations = require("./translations").getTranslations;
 const readJSONkeys = require("./filesystem").readJSONKeys;
 const writeJSONKeys = require("./filesystem").writeJSONKeys;
+const readInputArguments = require("./cmd").readInputArguments;
 
+// We probably don't need to have another input language?
 const INPUT_LANG = "English";
-const OUTPUT_LANG = "Spanish";
-const inputFile = "src/test.json";
-const outputFile = "src/newlang.json";
 
 const main = async () => {
-  const browser = await puppeteer.launch({ headless: false });
+  const { inputFile, outputDir, outputLanguages } = readInputArguments();
+
+  const browser = await puppeteer.launch({
+    headless: false,
+    args: ["--start-maximized"],
+  });
   const page = await browser.newPage();
 
   await page.goto("https://translate.google.com/");
-  await selectLanguageFromDropdown(page, INPUT_LANG, inputOutput.input);
-  await selectLanguageFromDropdown(page, OUTPUT_LANG, inputOutput.output);
 
   const keys = await readJSONkeys(inputFile);
-  const translatedDict = await getTranslations(page, keys);
-  await writeJSONKeys(outputFile, translatedDict);
 
+  for (let language of outputLanguages) {
+    await selectLanguageFromDropdown(page, INPUT_LANG, inputOutput.input);
+    await selectLanguageFromDropdown(page, language, inputOutput.output);
+
+    const translatedDict = await getTranslations(page, keys);
+    await writeJSONKeys(outputDir, `${language}.json`, translatedDict);
+  }
   await page.close();
   await browser.close();
 };

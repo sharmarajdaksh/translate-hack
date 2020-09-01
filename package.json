@@ -12,6 +12,7 @@
   "author": "Dakshraj Sharma",
   "license": "ISC",
   "dependencies": {
+    "mkdirp": "^1.0.4",
     "puppeteer": "^5.2.1",
     "yargs": "^15.4.1"
   },

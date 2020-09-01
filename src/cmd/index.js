@@ -1,6 +1,3 @@
-const yargs = require("yargs");
+const readInputArguments = require("./readInputArguments");
 
-// REQUIRED INPUTS
-// INPUT FILE (Single)
-// OUTPUT DIR && OUTPUT LANGUAGES (multiple)
-// OUTPUT FILE $$ OUTPUT LANGUAGE
+module.exports = { readInputArguments };
