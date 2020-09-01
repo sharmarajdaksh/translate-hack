@@ -11,18 +11,19 @@ async function readJSONkeys() {
         keys.push(key);
     }
 }
+
+let newLang = {}
 async function writeJSONkeys() {
     jsonfile.writeFile("src/newLang.json", newLang, (err) => {
       if (err) {
         console.error(err)
         throw err
       }
-  
       console.log('Saved data to file.')
     })
 }
 
-let newLang = {}
+
 const INPUT_LANG = "English"
 const OUTPUT_LANG = "Spanish";
 
