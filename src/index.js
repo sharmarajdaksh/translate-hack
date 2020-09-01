@@ -1,39 +1,28 @@
 const puppeteer = require("puppeteer");
+const fs = require('fs-extra');
+const jsonfile = require('jsonfile');
+const paths = [];
+const keys = []
 
-// const strEn = {
-//   hello: "hello", 
-//   by: "by",
-//   talk: "talk"
-// }
-// const newLang = {
-//   hello: "hello", 
-//   by: "by",
-//   talk: "talk"
-
-// }
-const strEn = {
-  "hello": "", 
-  "bye": "",
-  "talk": "",
-  "okay": "",
-  "now": "", 
-  "what": "",
-  "why": "",
-  "something new to do": "",
-  "something to wear": ""
-};
-
-const newLang = {
-  "hello": null, 
-  "bye": null,
-  "talk": null,
-  "okay": null,
-  "now": null, 
-  "what": null,
-  "why": null,
-  "something new to do": null,
-  "something to wear": null
+async function readJSONkeys() {
+    const buffer_data = fs.readFileSync('src/test.json');
+    let keys_data = JSON.parse(buffer_data);
+    for (var key in keys_data) {
+        keys.push(key);
+    }
 }
+async function writeJSONkeys() {
+    jsonfile.writeFile("src/newLang.json", newLang, (err) => {
+      if (err) {
+        console.error(err)
+        throw err
+      }
+  
+      console.log('Saved data to file.')
+    })
+}
+
+let newLang = {}
 const INPUT_LANG = "English"
 const OUTPUT_LANG = "Spanish";
 
@@ -57,7 +46,6 @@ const selectLanguageFromDropdown = async (page, language, inputOrOutput) => {
       ? ".language-list-unfiltered-langs-sl_list > * .language_list_item_language_name"
       : ".language-list-unfiltered-langs-tl_list > * .language_list_item_language_name",
     (elements, language) => {
-      console.log(language);
       const element = elements.find(
         (element) => element.innerHTML === language
       );
@@ -81,9 +69,8 @@ const getOutputText = async (page) => {
 };
 
 
-const getTranslation = async (page, obj) => {
-  for (var key of Object.keys(obj)) {
-    await console.log(key);
+const getTranslation = async (page, keys) => {
+  for (var key of keys ){
     await inputInputText(page, key);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     newLang[key] = await getOutputText(page);
@@ -98,8 +85,8 @@ const main = async () => {
   await page.goto("https://translate.google.com/");
   await selectLanguageFromDropdown(page, INPUT_LANG, inputOutput.input);
   await selectLanguageFromDropdown(page, OUTPUT_LANG, inputOutput.output);
-  const translatedText = await getTranslation(page, strEn);
-  console.log(translatedText);
+  const translatedText = await getTranslation(page, keys);
 };
 
-main();
+readJSONkeys().then(() => main()).then(() => writeJSONkeys());
+
