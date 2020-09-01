@@ -1,30 +1,29 @@
 const puppeteer = require("puppeteer");
-const fs = require('fs-extra');
-const jsonfile = require('jsonfile');
+const fs = require("fs-extra");
+const jsonfile = require("jsonfile");
 const paths = [];
-const keys = []
+const keys = [];
 
 async function readJSONkeys() {
-    const buffer_data = fs.readFileSync('src/test.json');
-    let keys_data = JSON.parse(buffer_data);
-    for (var key in keys_data) {
-        keys.push(key);
-    }
+  const buffer_data = fs.readFileSync("src/test.json");
+  let keys_data = JSON.pase(buffer_data);
+  for (var key in keys_data) {
+    keys.push(key);
+  }
 }
 
-let newLang = {}
+let newLang = {};
 async function writeJSONkeys() {
-    jsonfile.writeFile("src/newLang.json", newLang, (err) => {
-      if (err) {
-        console.error(err)
-        throw err
-      }
-      console.log('Saved data to file.')
-    })
+  jsonfile.writeFile("src/newLang.json", newLang, (err) => {
+    if (err) {
+      console.error(err);
+      throw err;
+    }
+    console.log("Saved data to file.");
+  });
 }
 
-
-const INPUT_LANG = "English"
+const INPUT_LANG = "English";
 const OUTPUT_LANG = "Spanish";
 
 // Enum
@@ -59,7 +58,7 @@ const selectLanguageFromDropdown = async (page, language, inputOrOutput) => {
 const inputInputText = async (page, text) => {
   await page.focus(".tlid-source-text-input");
   const input = await page.$(".tlid-source-text-input");
-  await input.click({ clickCount: 3 })
+  await input.click({ clickCount: 3 });
   await page.keyboard.type(text);
 };
 
@@ -69,19 +68,18 @@ const getOutputText = async (page) => {
   });
 };
 
-
 const getTranslation = async (page, keys) => {
-  for (var key of keys ){
+  for (var key of keys) {
     await inputInputText(page, key);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     newLang[key] = await getOutputText(page);
-}
-  // Manual Wait 
-  return newLang
+  }
+  // Manual Wait
+  return newLang;
 };
 
 const main = async () => {
-  const browser = await puppeteer.launch({ headless: false});
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto("https://translate.google.com/");
   await selectLanguageFromDropdown(page, INPUT_LANG, inputOutput.input);
@@ -89,5 +87,6 @@ const main = async () => {
   await getTranslation(page, keys);
 };
 
-readJSONkeys().then(() => main()).then(() => writeJSONkeys());
-
+readJSONkeys()
+  .then(() => main())
+  .then(() => writeJSONkeys());
