@@ -1,6 +1,6 @@
 module.exports = {
   elementSelectors: {
-    outputTextSelector: ".tlid-translation.translation > span",
+    outputTextSelector: ".tlid-translation.translation",
     inputTextInputFieldSelector: ".tlid-source-text-input",
     inputTextDropdownButtonSelector:
       "body > div.container > div.frame > div.page.tlid-homepage.homepage.translate-text > div.homepage-content-wrap > div.tlid-source-target.main-header > div.source-target-row > div.tlid-input.input > div.tlid-language-bar.ls-wrap > div.sl-wrap > div.sl-more.tlid-open-source-language-list",
