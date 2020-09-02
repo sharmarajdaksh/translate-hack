@@ -6,14 +6,19 @@
   "scripts": {
     "develop": "nodemon src/index.js",
     "start": "node src/index.js",
+    "extract": "i18next --config i18next-parser.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Dakshraj Sharma",
   "license": "ISC",
   "dependencies": {
-    "puppeteer": "^5.2.1"
+    "mkdirp": "^1.0.4",
+    "puppeteer": "^5.2.1",
+    "yargs": "^15.4.1"
   },
   "devDependencies": {
+    "fs-extra": "^9.0.1",
+    "jsonfile": "^6.0.1",
     "nodemon": "^2.0.4"
   }
 }
