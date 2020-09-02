@@ -8,7 +8,7 @@ const getOutputText = async (page) => {
     return element.innerHTML;
   });
 
-  let re = /(<.*?>)?(\w*)(<\/\w*>)?/;
+  const re = /(<.*?>)?(\w*)(<\/\w*>)?/;
   return innerHTML.match(re)[2];
 };
 
