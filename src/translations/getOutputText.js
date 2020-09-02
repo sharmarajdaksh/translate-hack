@@ -5,7 +5,7 @@ const outputTextSelector = require("../config").elementSelectors
 
 const getOutputText = async (page) => {
   return await page.$eval(outputTextSelector, (element) => {
-    return element.innerHTML;
+    return element.innerText;
   });
 };
 
