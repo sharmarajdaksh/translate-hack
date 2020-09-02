@@ -18,7 +18,6 @@
   },
   "devDependencies": {
     "fs-extra": "^9.0.1",
-    "i18next-parser": "^3.3.0",
     "jsonfile": "^6.0.1",
     "nodemon": "^2.0.4"
   }
