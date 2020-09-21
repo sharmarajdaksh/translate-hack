@@ -1,8 +1,8 @@
 module.exports = {
-NAMESPACE: "test", //translated file name eg. test.json gets created in each $LOCALE folder. 
-outputDir: `public/locales/$LOCALE`, //output directory, $LOCALE gets replaced by language
+NAMESPACE: "test", //name of the translated file to be created in the output directory
+outputDir: `public/locales/$LOCALE`, //output directory, NOTE: append path with /$LOCALE 
 inputFile: "src/test.json", //change file for every translation
-outputLanguages: ["fr", "es", "hi"], //only use abbreviations
+outputLanguages: ["fr", "en", "zh-CN"], //Language codes
 inputLang: "English"
 }
 

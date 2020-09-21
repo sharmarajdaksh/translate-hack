@@ -18,7 +18,7 @@ const main = async () => {
   const spinner = new Spinner('processing.. %s');
   spinner.setSpinnerString('|/-\\');
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     args: ["--start-maximized"],
   });
   const page = await browser.newPage();

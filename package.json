@@ -6,7 +6,6 @@
   "scripts": {
     "develop": "nodemon src/index.js",
     "start": "node src/index.js",
-    "extract": "i18next --config i18next-parser.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Dakshraj Sharma",
